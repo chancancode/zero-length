@@ -29,11 +29,11 @@
     if(!cond){
       error(message);
       failed = true;
-    }
+
   };
 
   error = function(message){
-    console.error && console.error(message);
+    console && console.error && console.error(message);
 
     var node = document.createElement("li");
     node.appendChild(document.createTextNode('ERROR: ' + message));
@@ -42,7 +42,7 @@
   };
 
   log = function(message){
-    console.log && console.log(message);
+    console && console.log && console.log(message);
 
     var node = document.createElement("li");
     node.appendChild(document.createTextNode(message));
