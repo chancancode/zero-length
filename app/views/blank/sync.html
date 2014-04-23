@@ -9,7 +9,41 @@
 <ul id="logs"></ul>
 
 <script>
-  var req, assert, error, log, testCase, failed = false;
+  var req, failed = false;
+
+  function error(message){
+    console && console.error && console.error(message);
+
+    var node = document.createElement("li");
+    node.appendChild(document.createTextNode('ERROR: ' + message));
+
+    document.getElementById('logs').appendChild(node);
+  }
+
+  function log(message){
+    console && console.log && console.log(message);
+
+    var node = document.createElement("li");
+    node.appendChild(document.createTextNode(message));
+
+    document.getElementById('logs').appendChild(node);
+  }
+
+  function assert(cond, message){
+    if(!cond){
+      error(message);
+      failed = true;
+    }
+  }
+
+  function testCase(request){
+    assert(request.responseText === '', 'Expected an empty response but got "' + request.responseText + '".');
+    assert(request.status === 200, 'Expected a 200 response code but got "' + request.status + '".');
+    assert(request.getResponseHeader('CONTENT-LENGTH') === '0', 'Expected CONTENT-LENGTH to be 0 but got "' + request.getResponseHeader('CONTENT-LENGTH') + '".');
+    assert(request.getResponseHeader('X-TEST') === 'omg', 'Expected X-TEST to be "omg" but got "' + request.getResponseHeader('X-TEST') + '".');
+
+    failed ? error('TEST FAILED') : log('TEST PASSED');
+  }
 
   if (window.XMLHttpRequest){
     req = new XMLHttpRequest();
@@ -24,40 +58,6 @@
   req.open('GET', '/blank', false /* async */);
 
   req.send(null);
-
-  assert = function(cond, message){
-    if(!cond){
-      error(message);
-      failed = true;
-
-  };
-
-  error = function(message){
-    console && console.error && console.error(message);
-
-    var node = document.createElement("li");
-    node.appendChild(document.createTextNode('ERROR: ' + message));
-
-    document.getElementById('logs').appendChild(node);
-  };
-
-  log = function(message){
-    console && console.log && console.log(message);
-
-    var node = document.createElement("li");
-    node.appendChild(document.createTextNode(message));
-
-    document.getElementById('logs').appendChild(node);
-  };
-
-  testCase = function(request){
-    assert(request.responseText === '', 'Expected an empty response but got "' + request.responseText + '".');
-    assert(request.status === 200, 'Expected a 200 response code but got "' + request.status + '".');
-    assert(request.getResponseHeader('CONTENT-LENGTH') === '0', 'Expected CONTENT-LENGTH to be 0 but got "' + request.getResponseHeader('CONTENT-LENGTH') + '".');
-    assert(request.getResponseHeader('X-TEST') === 'omg', 'Expected X-TEST to be "omg" but got "' + request.getResponseHeader('X-TEST') + '".');
-
-    failed ? error('TEST FAILED') : log('TEST PASSED');
-  };
 
   testCase(req);
 </script>
