@@ -12,7 +12,7 @@
   var req, failed = false;
 
   function error(message){
-    console && console.error && console.error(message);
+    window.console && window.console.error && window.console.error(message);
 
     var node = document.createElement("li");
     node.appendChild(document.createTextNode('ERROR: ' + message));
@@ -21,7 +21,7 @@
   }
 
   function log(message){
-    console && console.log && console.log(message);
+    window.console && window.console.log && window.console.log(message);
 
     var node = document.createElement("li");
     node.appendChild(document.createTextNode(message));
