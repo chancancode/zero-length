@@ -1,4 +1,4 @@
 # README
 
-[zomg](commit/648999021917ed239da1b57b4843f88675253be5)
+[zomg](../../commit/648999021917ed239da1b57b4843f88675253be5)
 
